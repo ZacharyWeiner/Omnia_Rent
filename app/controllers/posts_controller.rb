@@ -1,25 +1,31 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-
-
+  before_action :set_props, only: [:index]
   def home
   end
 
   # GET /posts
   # GET /posts.json
   def index
-      @posts = Post.all.order("timestamp DESC").paginate(:page => params[:page], :per_page => 15)
-      @posts = @posts.where(bedrooms: params["bedrooms"]) if params["bedrooms"].present? && params["bedrooms"].to_i > 0
-      @posts = @posts.where(bathrooms: params["bathrooms"]) if params["bathrooms"].present? && params["bathrooms"].to_d > 0
-      @posts = @posts.where(sqft: params["sqft"]) if params["sqft"].present? && params["sqft"].to_d > 0  
-      @posts = @posts.where("price > ?", params["min_price"]) if params["min_price"].present? 
-      @posts = @posts.where("price < ?", params["max_price"]) if params["max_price"].present?  
-      @posts = @posts.where("sqft > ?", params["min_sqft"]) if params["min_sqft"].present? 
-      @posts = @posts.where("sqft < ?", params["max_sqft"]) if params["max_sqft"].present?   
-      @posts = @posts.where(neighborhood: params["neighborhood"]) if params["neighborhood"].present? 
-      @posts = @posts.where(cats: params["cats"]) if params["cats"].present? 
-      @posts = @posts.where(dogs: params["dogs"]) if params["dogs"].present? 
-      @posts = @posts.where(dogs: params["w_d_in_unit"]) if params["w_d_in_unit"].present? 
+
+    @posts = Post.all.order("timestamp DESC").paginate(:page => params[:page], :per_page => 15)
+    @posts = @posts.where(bedrooms: params["bedrooms"]) if params["bedrooms"].present? && params["bedrooms"].to_i > 0
+    @posts = @posts.where(bathrooms: params["bathrooms"]) if params["bathrooms"].present? && params["bathrooms"].to_d > 0
+    @posts = @posts.where(sqft: params["sqft"]) if params["sqft"].present? && params["sqft"].to_d > 0  
+    @posts = @posts.where("price > ?", params["min_price"]) if params["min_price"].present? 
+    @posts = @posts.where("price < ?", params["max_price"]) if params["max_price"].present?  
+    @posts = @posts.where("sqft > ?", params["min_sqft"]) if params["min_sqft"].present? 
+    @posts = @posts.where("sqft < ?", params["max_sqft"]) if params["max_sqft"].present?
+    unless params[:is_hipster]
+      @posts = @posts.where(neighborhood: params["neighborhood"]) if params["neighborhood"].present?
+    else 
+      @posts = @posts.where(is_hipster: "YES")
+    end
+    @posts = @posts.where(cats: params["cats"]) if params["cats"].present? 
+    @posts = @posts.where(dogs: params["dogs"]) if params["dogs"].present? 
+    @posts = @posts.where(dogs: params["w_d_in_unit"]) if params["w_d_in_unit"].present?
+    
+     
   end
 
   # GET /posts/1
@@ -81,6 +87,11 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
+    end
+
+    def set_props
+      @hipster_location_collection = ["USA-MIA-DOM", "USA-MIA-NOC", "USA-MIA-SOC", "USA-MIA-UPP", "USA-MIA-WYN"]
+      @hipster_search_terms = ["ocean", "view", "beach"]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

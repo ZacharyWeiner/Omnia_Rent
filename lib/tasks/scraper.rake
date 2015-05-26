@@ -1,12 +1,11 @@
 namespace :scraper do
 	desc "fetch posts from 3Taps for CraigsList since the last anchor"
 	task scrape: :environment do
-		require 'open-uri'
-		require 'json'
-
-		auth_token = "1b9df10b526e6f785dfdc940a414ffae"
-		polling_url = "http://polling.3taps.com/poll"
-
+	require 'open-uri'
+	require 'json'
+	auth_token = "1b9df10b526e6f785dfdc940a414ffae"
+	polling_url = "http://polling.3taps.com/poll"
+	hipster_locs = ["USA-MIA-MIB", "USA-MIA-FOR", "USA-MIA-MIF", "USA-MIA-DEE", "USA-MIA-DOM"]
 	#Grab data until up to date
 	loop do 
 
@@ -37,11 +36,14 @@ namespace :scraper do
 			@post.heading = posting["heading"]
 			@post.body = posting["body"]
 			@post.price = posting["price"]
-			loc = Location.find_by(code: posting["location"]["locality"])
+			loc = Location.find_by(code: posting["location"]["locality"]) if posting["location"]["locality"].present?
 			@post.neighborhood = loc.name unless loc == nil 
-			@post.external_url = posting["external_url"]
+			@post.external_url = posting["external_url"] if posting["external_url"].present?
+			if ["USA-MIA-MIB", "USA-MIA-FOR", "USA-MIA-MIF", "USA-MIA-DEE", "USA-MIA-DOM"].include? posting["location"]["locality"]
+				puts "hip hip hip"
+				@post.is_hipster = "YES" 
+			end
 			@post.timestamp = posting["timestamp"]
-
 			@post.bedrooms = posting["annotations"]["bedrooms"] if posting["annotations"]["bedrooms"].present?
 			@post.bathrooms = posting["annotations"]["bathrooms"] if posting["annotations"]["bathrooms"].present? 
 			@post.sqft = posting["annotations"]["sqft"] if posting["annotations"]["sqft"].present? 
@@ -50,7 +52,7 @@ namespace :scraper do
 			@post.w_d_in_unit = posting["annotations"]["w_d_in_unit"] if posting["annotations"]["w_d_in_unit"].present?
 			# Save post
 			@post.save 
-
+			puts @post.id
 			# Iterate the images an add a record in the images table for each one
 			if posting["images"].present?
 				posting["images"].each do |img|
@@ -62,7 +64,9 @@ namespace :scraper do
 				end # End images.each
 			end # End images.present? 
 		end # End Postings Each 
-		Anchor.first.update(value: result["anchor"])
+		a = Anchor.first
+		a.value = result["anchor"]
+		a.save
 		puts Anchor.first.value
 		break if result["postings"].empty?
 	end # End loop

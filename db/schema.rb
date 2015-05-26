@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526015903) do
+ActiveRecord::Schema.define(version: 20150526040506) do
 
   create_table "anchors", force: :cascade do |t|
     t.string   "value"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20150526015903) do
     t.string   "dogs"
     t.string   "w_d_in_unit"
     t.string   "parking"
+    t.string   "is_hipster"
   end
 
 end
