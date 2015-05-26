@@ -1,0 +1,48 @@
+<div class="container-fluid">
+<%= render('filter') %>
+<% if @posts.empty?  %>
+  <br />
+  <h3>No Results Found</h3>
+  <% else %>
+<table class="table table-hover table-condensed">
+  <thead>
+    <tr>
+      <th class="center" >Preview</th>
+      <th class="center" width="45%">Heading</th>
+      <th class="center" >Price</th>
+      <th class="center" >Bed</th>
+      <th class="center" >Bath</th>
+      <th class="center" >sq Feet</th>
+      <th class="center" >Neighborhood</th>
+      <th class="center" >Posted</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.each do |post| %>
+    <tr>
+      <td class="center" style="vertical-align:middle">
+        <%= link_to post_path(post) do %>
+           <% if post.images.empty? %>
+            <%= image_tag("http://www.eastbaymodern.com/idx/img/no-image.gif", class: "thumbnail") %>
+           <% else %>
+            <%= image_tag(post.images[0].url, class: "thumbnail") %>
+           <% end %>
+        <% end %>
+      </td>
+      <td class="center" style="vertical-align:middle"><%= link_to post.heading, post %></td>
+      <td class="center" style="vertical-align:middle"><%= number_to_currency(post.price, precision: 0) %></td>
+      <td class="center" style="vertical-align:middle"><%= post.bedrooms %></td>
+      <td class="center" style="vertical-align:middle"><%= post.bathrooms %></td>
+      <td class="center" style="vertical-align:middle"><%= post.sqft %></td>
+      <td class="center" style="vertical-align:middle"><%= post.neighborhood %></td>
+      <td class="center" style="vertical-align:middle"><%= "#{time_ago_in_words(Time.at(post.timestamp.to_i))} ago" %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+<% end %>
+<br>
+</div>
