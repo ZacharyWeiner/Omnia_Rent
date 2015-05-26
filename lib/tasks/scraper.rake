@@ -103,11 +103,18 @@ namespace :scraper do
 		@location.name = location["short_name"]
 		puts "#{@location.code}: #{@location.name}"
 		@location.save
+		end
 	end
-end
 
-desc "Destroy all Location Table Data"
-task destroy_all_locations: :environment do
-	Location.destroy_all
-end
+	desc "Destroy all Location Table Data"
+	task destroy_all_locations: :environment do
+		Location.destroy_all
+	end
+
+	desc "Destroy all Entries over 10 days old"
+	task destroy_old_data: :environment do
+		if post.created_at < 7.days.ago 
+			post.destroy 
+		end
+	end
 end
