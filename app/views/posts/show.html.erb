@@ -12,7 +12,7 @@
   <div class="row">
     <div id="post-images" class="col-md-7">
       <div>
-      <% if @images.blank? %>
+      <% if @images == nil || @images.blank? %>
         <%= image_tag "http://www.eastbaymodern.com/idx/img/no-image.gif", class: "thumbnail" %>
       <% else %>
         <% @images.each do |image| %>
