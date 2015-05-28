@@ -117,7 +117,7 @@ namespace :scraper do
 
 	desc "Destroy all Entries over 10 days old"
 	task destroy_old_data: :environment do
-		if post.created_at < 7.days.ago 
+		if post.created_at < 2.days.ago 
 			post.destroy 
 		end
 	end
