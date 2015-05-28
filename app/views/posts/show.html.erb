@@ -58,3 +58,11 @@
   </div>
   <%= link_to 'Back', posts_path %>
 </div>
+
+<% content_for :head do %>
+  <meta property="fb:app_id" content="myid" /> 
+  <meta property="og:type"   content="hipsterfilter:post" /> 
+  <meta property="og:url"    content="<%= "http://hipsterfilter.com" + post_path(@post) %>" /> 
+  <meta property="og:title"  content="Miami Rentals Hipster Filter" /> 
+  <meta property="og:image"  content="<%= image_tag @post.images[0].url unless @post.images == nil %>" /> 
+<% end %>
