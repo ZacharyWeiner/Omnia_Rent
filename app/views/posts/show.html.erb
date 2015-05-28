@@ -64,5 +64,5 @@
   <meta property="og:type"   content="hipsterfilter:post" /> 
   <meta property="og:url"    content="<%= "http://hipsterfilter.com" + post_path(@post) %>" /> 
   <meta property="og:title"  content="Miami Rentals Hipster Filter" /> 
-  <meta property="og:image"  content="<%= image_tag @post.images[0].url unless @post.images == nil %>" /> 
+  <meta property="og:image"  content="<%= @post.images[0].url unless @post.images == nil %> " /> 
 <% end %>
