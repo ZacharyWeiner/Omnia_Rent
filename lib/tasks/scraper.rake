@@ -5,7 +5,7 @@ namespace :scraper do
 	require 'json'
 	auth_token = "1b9df10b526e6f785dfdc940a414ffae"
 	polling_url = "http://polling.3taps.com/poll"
-	hipster_locs = ["USA-MIA-MIB", "USA-MIA-FOR", "USA-MIA-MIF", "USA-MIA-DEE", "USA-MIA-DOM"]
+	hipster_locs = ["USA-MIA-MIB", "USA-MIA-FOR", "USA-MIA-MIF", "USA-MIA-DEE", "USA-MIA-DOM", "USA-MIA-NOC", "USA-MIA-SOC", "USA-MIA-WYN"]
 	#Grab data until up to date
 	loop do 
 
