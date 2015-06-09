@@ -32,6 +32,19 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @images = @post.images
+
+    unless @post.neighborhood == nil
+      @location  = Location.where(:name => @post.neighborhood).first;
+      p @location.name
+      @ppsf_avg = PricePerSqft.where(:location_id => @location.id).average(:value)
+      p @ppsf_avg.to_s
+
+      @this_ppsf = 0
+      if (@post.price.to_i > 0) && (@post.sqft.to_i > 0)
+        @this_ppsf = @post.price.to_d / @post.sqft.to_d
+        p @this_ppsf.to_s
+      end
+    end 
   end
 
   # GET /posts/new

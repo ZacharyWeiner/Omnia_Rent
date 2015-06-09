@@ -24,6 +24,8 @@
     <div class="col-md-5">
     <div class="basic-info">
       <h4>Basic Info</h4>
+        Average ppsq for Area: <%= @ppsf_avg.to_s %><br />
+        ppsq: <%= @this_ppsf.to_s %>
         Price: <%= number_to_currency(@post.price, precicion: 0) %><br/>
         Last Updated: <%= "#{time_ago_in_words(Time.at(@post.timestamp.to_i))} ago" %><br/>
         <% if @post.neighborhood.present? %>

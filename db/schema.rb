@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526040506) do
+ActiveRecord::Schema.define(version: 20150602060902) do
 
   create_table "anchors", force: :cascade do |t|
     t.string   "value"
@@ -53,5 +53,16 @@ ActiveRecord::Schema.define(version: 20150526040506) do
     t.string   "parking"
     t.string   "is_hipster"
   end
+
+  create_table "price_per_sqfts", force: :cascade do |t|
+    t.integer  "location_id"
+    t.integer  "price"
+    t.integer  "sqft"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.decimal  "value"
+  end
+
+  add_index "price_per_sqfts", ["location_id"], name: "index_price_per_sqfts_on_location_id"
 
 end
