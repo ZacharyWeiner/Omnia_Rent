@@ -4,7 +4,6 @@ namespace :scraper do
 	require 'open-uri'
 	require 'json'
 	require 'mathn'
-	anchor_value = 2233987739
 	auth_token = "1b9df10b526e6f785dfdc940a414ffae"
 	polling_url = "http://polling.3taps.com/poll"
 	hipster_locs = ["USA-MIA-MIB", "USA-MIA-FOR", "USA-MIA-MIF", "USA-MIA-DEE", "USA-MIA-DOM", "USA-MIA-NOC", "USA-MIA-SOC", "USA-MIA-WYN", "USA-MIA-GAL", "USA-MIA-IDL", "USA-MIA-LAS", "USA-MIA-LAB", "USA-MIA-MID","USA-MIA-RIO", "USA-MIA-SAI", "USA-MIA-TAR", "USA-MIA-VIC"]
@@ -40,7 +39,7 @@ namespace :scraper do
 			
 			# Iterate over each item that was returned to save the items in the database
 			result["postings"].each do | posting |
-				if Post.where(:body => posting["body"]).count > 0
+				unless Post.where(:body => posting["body"]).count > 0
 					@post = Post.new
 					@post.heading = posting["heading"]
 					@post.body = posting["body"]
