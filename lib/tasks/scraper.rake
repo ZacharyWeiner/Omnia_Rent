@@ -39,7 +39,7 @@ namespace :scraper do
 			
 			# Iterate over each item that was returned to save the items in the database
 			result["postings"].each do | posting |
-				unless Post.where(:body => posting["body"]).count > 0
+				if Post.where(:external_url => posting["external_url"]).count == 0
 					@post = Post.new
 					@post.heading = posting["heading"]
 					@post.body = posting["body"]
