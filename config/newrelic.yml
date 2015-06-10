@@ -45,5 +45,6 @@ staging:
   <<: *default_settings
   app_name: HipsterFilter (Staging)
 
+
 production:
   <<: *default_settings
